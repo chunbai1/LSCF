@@ -1,0 +1,52 @@
+# arguments for dataset
+dataset: RefSegRS # RRSIS-D, RefSegRS, RefCOCO, RefCOCO+, G-Ref-g, G-Ref-u, RISBench
+data_root: RSFM_RIS_Datasets/RefSegRS
+crop_size: 512
+
+# arguments for model
+model:
+  backbone:
+    type: swin_base # refer model/model_info.py to select you interesting model
+    pretrained: pretrained_weights/swin_base_patch4_window12_384_22k.pth # None: random init
+    kwargs:
+      in_channels: 3
+      vlf_ris: MSCFNet # DMMI # SLViTMSDC_MultiCA_FFN # SLViTMSDC_Agent_FFN_2 # CA_Swift # MSCF # SLViTMSDC_Agent # MCT # SLViTMSDC
+      with_cp: false
+      num_heads_fusion: 
+        - 8
+        - 8
+        - 8
+        - 8
+      window_size: 12
+
+  text_encoder:
+    type: bert-base-uncased # bert-base-uncased, roberta-base
+
+  decoder:
+    type: FreqLAVTHead # DMMIHead # RefSegformerHead # ReMamberConvHead # FreqLAVTHead # LangLAVTHead # LAVTHead, LGCEHead, RMSINHead, CGFormerHead, ReMamberHead
+
+find_unused_parameters: True # False, True
+
+# arguments for training
+epochs: 50
+batch_size: 4 # per GPU x 4 GPUs, bs=16
+
+optimizer:
+  type: AdamW # SGD, AdamW
+  kwargs:
+    lr: 0.00003
+    weight_decay: 0.01
+    lr_multi: 1.0
+
+lr_scheduler:
+  type: poly # poly, step, cosine
+  kwargs:
+    update_type: iter # iter, epoch
+
+criterion:
+  type: RMSINLoss # RMSINLoss # CELoss # not used for CGFormer. CELoss, RISLoss, CombinedLoss
+  kwargs:
+    ignore_index: 255
+    # weight:
+    #   - 0.9
+    #   - 1.1
