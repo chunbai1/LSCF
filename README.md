@@ -18,6 +18,7 @@ conda activate lscf
 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 pip install torch==1.13.1+cu116 torchvision==0.14.1+cu116 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu116
 pip install -r requirements.txt
+mim install mmcv-full==1.7.0
 pip install scikit-image transformers pycocotools
 pip install tokenizers h5py
 
@@ -25,27 +26,104 @@ pip install tokenizers h5py
 apt install libgl1-mesa-glx
 ```
 
+
+## Datasets
+Please download the datasets from their official sources and organize them into the following directory structure:
+
+```text
+RSFM_RIS_Datasets
+├── RISBench
+│   ├── images
+│   ├── masks
+│   └── phrase_txts
+├── RRSIS-D
+│   ├── images
+│   ├── masks
+│   └── phrase_txts
+└── RefSegRS
+    ├── images
+    ├── masks
+    └── phrase_txts
+        ├── output_phrase_test.txt
+        ├── output_phrase_train.txt
+        └── output_phrase_val.txt
+```
+
+### Text file format (train/val/test)
+
+Each line in `*_train.txt`, `*_val.txt`, and `*_test.txt` should follow:
+
+```text
+<image_id> <text>
+```
+
+Example:
+
+```text
+4213 van driving on the road
+945 impervious surface
+3080 vehicle
+2339 building along the road
+```
+
+### Download links
+
+* RISBench: (placeholder) [https://github.com/](https://github.com/)<YOUR_ORG>/<YOUR_REPO>/releases/tag/datasets
+* RRSIS-D: (placeholder) [https://github.com/](https://github.com/)<YOUR_ORG>/<YOUR_REPO>/releases/tag/datasets
+* RefSegRS: (placeholder) [https://github.com/](https://github.com/)<YOUR_ORG>/<YOUR_REPO>/releases/tag/datasets
+
+
+## Weights
+
+### Training (Pretrained Backbones)
+
+Download the pretrained weights and place them as follows.
+
+**BERT (bert-base-uncased)**: Source: [https://huggingface.co/google-bert/bert-base-uncased/tree/main](https://huggingface.co/google-bert/bert-base-uncased/tree/main)
+
+**Swin Transformer**: Source: [https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window12_384_22k.pth](https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window12_384_22k.pth)
+
+Directory structure:
+
+```text
+pretrained_weights/
+├── bert
+│   └── bert-base-uncased
+│       ├── config.json
+│       ├── pytorch_model.bin
+│       ├── tokenizer.json
+│       ├── tokenizer_config.json
+│       └── vocab.txt
+└── swin_base_patch4_window12_384_22k.pth
+```
+
+### Evaluation (Checkpoints)
+
+We also provide evaluation-ready checkpoints that reproduce the reported results:
+
+| Dataset  | PR@5 | PR@7 | PR@9 | oIoU | mIoU | Checkpoint                                                                                              |
+| -------- | ---- | ---- | ---- | ---- | ---- | ------------------------------------------------------------------------------------------------------- |
+| RISBench | -    | -    | -    | -    | -    | (placeholder) [https://github.com/](https://github.com/)<YOUR_ORG>/<YOUR_REPO>/releases/tag/checkpoints |
+| RRSIS-D  | -    | -    | -    | -    | -    | (placeholder) [https://github.com/](https://github.com/)<YOUR_ORG>/<YOUR_REPO>/releases/tag/checkpoints |
+| RefSegRS | -    | -    | -    | -    | -    | (placeholder) [https://github.com/](https://github.com/)<YOUR_ORG>/<YOUR_REPO>/releases/tag/checkpoints |
+
+
 ## Usage
 ### Training
 ```shell
 bash scripts/train_dist.sh <num gpus> <port>
-# for example: bash scripts/train_dist.sh 4 10000
+# for example: bash scripts/train_dist.sh 2 23333
 ```
 
 ### Validation
 ```shell
-# Normal validation
 bash scripts/eval_dist.sh <num gpus> <port> --weight-path <path/to/your/trained/weight>
-
-# Using test-time augmentation (TTA), including multi-scale (x1.0, x1.125, x1.25, x1.375, x1.5) augs with horizontal flipping
-bash scripts/eval_dist.sh <num gpus> <port> --weight-path <path/to/your/trained/weight> --tta
+# for example: bash scripts/eval_dist.sh 1 23333 -weight-path exps/RefSegRS/LSCF-20260115_063351/RefSegRS.swin_base.None.FreqLAVTHead.2xb4.img512.ep50.preswin_base_patch4_window12_384_22k.best91.15.pth
 ```
 
 ### Prediction
 ```shell
-# Normal prediction
 bash scripts/eval_dist.sh <num gpus> <port> --task predict --weight-path <path/to/your/trained/weight> --save-path <path/to/dir/you/want/save>
 
-# Using test-time augmentation (TTA)
-bash scripts/eval_dist.sh <num gpus> <port> --task predict --weight-path <path/to/your/trained/weight> --save-path <path/to/dir/you/want/save> --tta
+# for example: bash scripts/eval_dist.sh 1 23333 --task predict -weight-path exps/RefSegRS/LSCF-20260115_063351/RefSegRS.swin_base.None.FreqLAVTHead.2xb4.img512.ep50.preswin_base_patch4_window12_384_22k.best91.15.pth --save-path predict_result/RefSegRS/
 ```

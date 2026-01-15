@@ -1,6 +1,6 @@
 # arguments for dataset
-dataset: RRSIS-D # RRSIS-D, RefSegRS, RefCOCO, RefCOCO+, G-Ref-g, G-Ref-u, RISBench
-data_root: RSFM_RIS_Datasets/RRSIS-D
+dataset: RISBench # RRSIS-D, RefSegRS, RefCOCO, RefCOCO+, G-Ref-g, G-Ref-u, RISBench
+data_root: RSFM_RIS_Datasets/RISBench
 crop_size: 512
 
 # arguments for model
@@ -28,7 +28,7 @@ model:
 find_unused_parameters: True # False, True
 
 # arguments for training
-epochs: 40
+epochs: 50
 batch_size: 4 # per GPU x 4 GPUs, bs=16
 
 optimizer:
