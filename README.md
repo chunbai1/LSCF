@@ -66,13 +66,6 @@ Example:
 2339 building along the road
 ```
 
-### Download links
-
-* RISBench: (placeholder) [https://github.com/](https://github.com/)<YOUR_ORG>/<YOUR_REPO>/releases/tag/datasets
-* RRSIS-D: (placeholder) [https://github.com/](https://github.com/)<YOUR_ORG>/<YOUR_REPO>/releases/tag/datasets
-* RefSegRS: (placeholder) [https://github.com/](https://github.com/)<YOUR_ORG>/<YOUR_REPO>/releases/tag/datasets
-
-
 ## Weights
 
 ### Training (Pretrained Backbones)
@@ -101,11 +94,11 @@ pretrained_weights/
 
 We also provide evaluation-ready checkpoints that reproduce the reported results:
 
-| Dataset  | PR@5 | PR@7 | PR@9 | oIoU | mIoU | Checkpoint                                                                                              |
-| -------- | ---- | ---- | ---- | ---- | ---- | ------------------------------------------------------------------------------------------------------- |
-| RISBench | -    | -    | -    | -    | -    | (placeholder) [https://github.com/](https://github.com/)<YOUR_ORG>/<YOUR_REPO>/releases/tag/checkpoints |
-| RRSIS-D  | -    | -    | -    | -    | -    | (placeholder) [https://github.com/](https://github.com/)<YOUR_ORG>/<YOUR_REPO>/releases/tag/checkpoints |
-| RefSegRS | -    | -    | -    | -    | -    | (placeholder) [https://github.com/](https://github.com/)<YOUR_ORG>/<YOUR_REPO>/releases/tag/checkpoints |
+| Dataset  | PR@5-val | PR@5-test | PR@6-val | PR@6-test | PR@7-val | PR@7-test | PR@8-val | PR@8-test | PR@9-val | PR@9-test | oIoU-val | oIoU-test | mIoU-val | mIoU-test | Checkpoint                                                                                    |
+| -------- | -------- | --------- | -------- | --------- | -------- | --------- | -------- | --------- | -------- | --------- | -------- | --------- | -------- | --------- | --------------------------------------------------------------------------------------------- |
+| RefSegRS | 97.22        | 87.51         | 96.30        | 82.89         | 93.75        | 75.85         | 89.58        | 62.65         | 72.92        | 33.77         | 90.80        | 83.27         | 89.45        | 77.44         | [ckpt](https://drive.google.com/file/d/1NWhhAmq3JpnwihcNBuU_V0OMMDo2xlCZ/view?usp=drive_link) |
+| RRSIS-D  | 75.17        | 74.30         | 67.93        | 67.69         | 57.99        | 56.32         | 44.94        | 43.08         | 25.98        | 25.67         | 78.14        | 77.42         | 65.15        | 64.25         | [ckpt](https://drive.google.com/file/d/1PD_eTZ5G8B7lVGfDPjGT3eKYuoVgcgP_/view?usp=drive_link) |
+| RISBench | 75.67        | 76.08         | 70.99        | 71.29         | 64.58        | 64.96         | 54.92        | 55.13         | 36.38        | 36.73         | 69.93        | 74.88         | 67.88        | 68.53         | [ckpt](https://drive.google.com/file/d/1Mj-RCNcMoCIyT6bgWwLJRi33OVpX6EY7/view?usp=drive_link) |
 
 
 ## Usage
